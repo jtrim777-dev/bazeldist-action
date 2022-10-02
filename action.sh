@@ -55,7 +55,7 @@ done
 sed -i "s/$OLDVZN/$VERSION/g" "$2"
 
 jq -cr '.bazel_targets[]' /tmp/input.json | while read btarget; do
-    bazel $btarget -- "$RELEASE_TYPE"
+    bazel run $btarget -- "$RELEASE_TYPE"
 done
 
 echo "::set-output name=version::$VERSION"
