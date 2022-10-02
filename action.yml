@@ -1,0 +1,55 @@
+name: 'Bazel Distribution'
+description: 'Execute deployments using bazeldist'
+inputs:
+  tag:  # id of input
+    description: 'The git tag this deployment is based off of'
+    required: true
+  version_file:
+    description: "The file which tells bazeldist the current version"
+    required: true
+    default: "VERSION"
+  version_sub_files:
+    description: "The files in which to replace the old version with the new version. Comma-separated paths"
+    required: false
+    default: ""
+  bazel_targets:
+    description: "The deployment targets to execute. Comma-separated list"
+    required: true
+  email:
+    description: "Your GitHub email"
+    required: false
+    default: ""
+  actor:
+    description: "The name of the GitHub actor running this workflow"
+    required: false
+    default: "GitHub Actions"
+  github_token:
+    description: "The token used to execute Git actions. This token must have write access to repo you need to modify"
+    required: false
+    default: ""
+  dist_user:
+    description: "The username for the repository you're deploying to"
+    required: false
+    default: ""
+  dist_token:
+    description: "The password/token for the repository you're deploying to"
+    required: false
+    default: ""
+outputs:
+  version: # id of output
+    description: 'The version this deployment is for'
+  release_type:
+    description: "Either 'release' or 'snapshot' depending on what RegExp the version matches"
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - "${{ inputs.tag }}"
+    - "${{ inputs.version_file }}"
+    - "${{ inputs.version_sub_files }}"
+    - "${{ inputs.bazel_targets }}"
+    - "${{ inputs.email }}"
+    - "${{ inputs.actor }}"
+    - "${{ inputs.github_token }}"
+    - "${{ inputs.dist_user }}"
+    - "${{ inputs.dist_token }}"
