@@ -1,6 +1,6 @@
 FROM ghcr.io/jtrim777-dev/bazelbase:latest
 
-RUN /usr/bin/installgcc
+RUN apt update && /usr/bin/installgcc
 
 COPY action.sh /usr/bin/execute_gh
 
